@@ -1,0 +1,60 @@
+.body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+	height: 100%;
+	max-width: 1080px;
+}
+
+.body .home-main-title {
+	font-weight: 900;
+	font-size: 50px;
+	color: #292929;
+	line-height: 50px;
+	word-spacing: 8px;
+	text-align: center;
+	animation: title-move3 2s forwards;
+}
+
+.app-body .nft-title {
+	background-clip: text;
+	color: #4c4848;
+	font-size: 42px;
+}
+
+.body .search {
+	animation: title-move3 2s forwards;
+}
+.body .search input:focus {
+	outline: none;
+}
+
+.homepage-footer a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: black;
+	font-weight: 500;
+}
+
+.app-body .built-for {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	color: black;
+	font-weight: 600;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+@keyframes title-move3 {
+	from {
+		transform: translate(0px, -70px);
+	}
+	to {
+		transform: translate(0px, 0px);
+	}
+}
