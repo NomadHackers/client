@@ -6,12 +6,30 @@ import { toast } from "react-toastify";
 import { RiImageEditLine } from "react-icons/ri";
 import styled from "@emotion/styled";
 import MDEditor from "@uiw/react-md-editor";
+import { NftStorageHttpService } from "../utils/nftStorage";
 
 export const Create = () => {
 	const [title, setTitle] = useState("");
+	const [loading, setLoading] = useState(false);
 	const [thumbnailFile, setThumbnailFile] = useState();
 	const [thumbnailFilePreview, setThumbnailFilePreview] = useState();
 	const [value, setValue] = useState("");
+	const nftStorageHttpService = new NftStorageHttpService();
+
+	async function uploadToIpfs() {
+		if (!title) return alert("Please ensure everything is filled.");
+		setLoading(true);
+
+		// 1. Upload file to ipfs
+		const assetUrl = await nftStorageHttpService.pinFileToIPFS(thumbnailFile);
+
+		// 2. Upload data to ipfs
+		const metaDataUrl = await nftStorageHttpService.pinJSONToIPFS({
+			markdown: value,
+			title,
+			image: assetUrl,
+		});
+	}
 
 	useEffect(() => {
 		if (thumbnailFile) {
@@ -130,6 +148,9 @@ export const Create = () => {
 							<div data-color-mode="light">
 								<MDEditor value={value} onChange={setValue} />
 							</div>
+							<Box>
+								<Button onClick={() => uploadToIpfs()}>Upload</Button>
+							</Box>
 						</Box>
 					</Box>
 				</Box>
