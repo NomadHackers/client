@@ -21,13 +21,16 @@ export const Article = () => {
 			const contract = new web3.eth.Contract(Wiki.abi, CHAIN.contract_address);
 
 			const article = await contract.methods.articlesById(id).call();
-			console.log(article);
-			setArticle(article);
+			let art = article;
+			console.log(art);
+			setArticle(art);
 			// article.imageHash - Image of the article
 			// article.title - Title of the article
 
 			const response = await axios.get(article.ipfsHash);
 			console.log(response.data);
+			art.markdown = response.data.markdown;
+			setArticle(art);
 			// response.data.markdown =  Markdown content
 		} catch (error) {
 			toast(error.message);
@@ -85,7 +88,7 @@ export const Article = () => {
 							style={{
 								border: "none",
 							}}
-							value={`ome contentcdcd\n\nddsc`}
+							value={article.markdown}
 						/>
 					</div>
 				</Box>
