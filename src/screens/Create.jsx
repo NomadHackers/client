@@ -53,13 +53,13 @@ export const Create = () => {
 			// Gas Calculation
 			const gasPrice = await web3.eth.getGasPrice();
 			const gas = await contract.methods
-				.addNewArticle(1, currentAddress, 0, contentHash, imageHash, title)
+				.addNewArticle(contentHash, imageHash, title)
 				.estimateGas({
 					from: currentAddress,
 				});
 
 			const resp = await contract.methods
-				.addNewArticle(1, currentAddress, 0, contentHash, imageHash, title)
+				.addNewArticle(contentHash, imageHash, title)
 				.send({ from: currentAddress, gasPrice, gas })
 				.on("receipt", async function (receipt) {
 					console.log(receipt);

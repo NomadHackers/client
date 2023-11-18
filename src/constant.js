@@ -16,7 +16,7 @@ export const ChainsConfig = {
 			decimals: 18,
 		},
 		blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-		contract_address: "0x074bd2A083D0954C5A454ED38BBE59933c8e4733",
+		contract_address: "0x655b5B135D646D6498106bE4987a6815831B9Fa9",
 	},
 };
 

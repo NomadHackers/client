@@ -8,6 +8,7 @@ import Web3 from "web3";
 import Wiki from "../contracts/Wikipedia.json";
 import { CHAIN } from "../constant";
 import MDEditor from "@uiw/react-md-editor";
+import axios from "axios";
 
 export const Article = () => {
 	const { id } = useParams();
@@ -19,9 +20,15 @@ export const Article = () => {
 			const web3 = new Web3(window.ethereum);
 			const contract = new web3.eth.Contract(Wiki.abi, CHAIN.contract_address);
 
-			const result = await contract.methods.articlesById(id).call();
-			console.log(result);
-			setArticle(result);
+			const article = await contract.methods.articlesById(id).call();
+			console.log(article);
+			setArticle(article);
+			// article.imageHash - Image of the article
+			// article.title - Title of the article
+
+			const response = await axios.get(article.ipfsHash);
+			console.log(response.data);
+			// response.data.markdown =  Markdown content
 		} catch (error) {
 			toast(error.message);
 		}
@@ -57,7 +64,6 @@ export const Article = () => {
 					</Box>
 					<Box
 						sx={{
-							backgroundColor: "pink",
 							width: "100%",
 							height: "240px",
 							borderRadius: "8px",
@@ -91,7 +97,7 @@ export const Article = () => {
 							fontWeight: "500",
 						}}
 					>
-						Content Here
+						Latest articles
 					</Box>
 				</Box>
 			</Box>

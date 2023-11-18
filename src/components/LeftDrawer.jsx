@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
+import { EmbedSDK } from "@pushprotocol/uiembed";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -33,7 +34,7 @@ const mainList = [
 		text: "Your Posts",
 		i: () => <AiOutlineDatabase />,
 		ai: () => <AiFillDatabase />,
-		path: "/datasets",
+		path: "/posts",
 	},
 	{
 		text: "Create Post",
@@ -88,19 +89,23 @@ export function LeftDrawer({ smaller }) {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [index, setIndex] = useState(0);
+	const username = localStorage.getItem("address");
+	const [anchorEl, setAnchorEl] = useState(null);
+
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
 
 	function updateIndex(path) {
 		switch (path.split("/")[1]) {
 			case "home":
 				return setIndex(0);
-			case "jobs":
-				return setIndex(1);
-			case "datasets":
+			case "notifications":
+				return;
+			case "posts":
 				return setIndex(2);
-			case "models":
+			case "create":
 				return setIndex(3);
-			case "marketplace":
-				return setIndex(4);
 			default:
 				setIndex(0);
 		}
@@ -108,6 +113,29 @@ export function LeftDrawer({ smaller }) {
 
 	useEffect(() => {
 		updateIndex(location.pathname);
+		if (username) {
+			// 'your connected wallet address'
+			EmbedSDK.init({
+				headerText: "Notifications", // optional
+				targetID: "sdk-trigger-id", // mandatory
+				appName: "Forever", // mandatory
+				user: username, // mandatory
+				chainId: 1, // mandatory
+				viewOptions: {
+					type: "sidebar", // optional [default: 'sidebar', 'modal']
+					showUnreadIndicator: true, // optional
+					unreadIndicatorColor: "#cc1919",
+					unreadIndicatorPosition: "bottom-right",
+				},
+				theme: "light",
+				onOpen: () => {},
+				onClose: () => {},
+			});
+		}
+
+		return () => {
+			EmbedSDK.cleanup();
+		};
 	}, [location.pathname]);
 
 	return (
@@ -121,7 +149,7 @@ export function LeftDrawer({ smaller }) {
 		>
 			<Box
 				sx={{
-					backgroundColor: "white",
+					backgroundColor: "#EFF2FA",
 					display: "flex",
 					justifyContent: "space-between",
 					flexDirection: "column",
@@ -141,7 +169,11 @@ export function LeftDrawer({ smaller }) {
 						{mainList.map(({ text, i, ai, path }, ind) => (
 							<Box
 								key={text}
-								onClick={() => navigate(path)}
+								onClick={() => {
+									if (path === "/notifications") return handleClick();
+									navigate(path);
+								}}
+								id={path === "/notifications" ? "sdk-trigger-id" : ""}
 								sx={{
 									backgroundColor: index === ind ? "#444444" : "",
 									borderRadius: "8px",
