@@ -71,6 +71,7 @@ const Drawer = styled(MuiDrawer, {
 	flexShrink: 0,
 	whiteSpace: "nowrap",
 	boxSizing: "border-box",
+	borderRight: "none !important",
 	...(open && {
 		...openedMixin(theme),
 		"& .MuiDrawer-paper": openedMixin(theme),
@@ -115,12 +116,12 @@ export function LeftDrawer({ smaller }) {
 			open={smaller ? false : open}
 			sx={{
 				mt: 2,
-				borderRight: "0px solid black",
+				borderRight: "none",
 			}}
 		>
 			<Box
 				sx={{
-					backgroundColor: "#e8e0d5",
+					backgroundColor: "white",
 					display: "flex",
 					justifyContent: "space-between",
 					flexDirection: "column",

@@ -66,7 +66,7 @@ export const Navbar = () => {
 				position={"absolute"}
 				right={0}
 				sx={{
-					backgroundColor: "#E8E0D5",
+					backgroundColor: "white",
 					backgroundPosition: "right",
 					backgroundRepeat: "no-repeat",
 					width: "100vw",
