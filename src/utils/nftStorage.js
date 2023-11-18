@@ -15,7 +15,7 @@ export class NftStorageHttpService {
                 },
             });
             const data = ipfsFile.data.value;
-            const assetUrl = `${process.env.REACT_APP_IPFS_BASE_URL}/${data.cid}/${data.files[0].name}`;
+            const assetUrl = `https://ipfs.io/ipfs/${data.cid}/${data.files[0].name}`;
             return assetUrl;
         } catch (error) {
             console.log(error);
@@ -30,7 +30,7 @@ export class NftStorageHttpService {
                     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVBNzU5QjEyNzdiQzc3OWY2Yzg5RjAzN0IyNjhCMWE1ZTcxMzVDMDQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2MjgyNDk0NTE3MCwibmFtZSI6IkRldmVsb3BtZW50IEtleSJ9.Rj6LQpCLvz0Tn9Jm3OdVQFuAw1H9Gop1X2a0Bp5Cxkg`,
                 },
             });
-            const url = `${process.env.REACT_APP_IPFS_BASE_URL}/${jsonIpfs.data.value.cid}`;
+            const url = `https://ipfs.io/ipfs/${jsonIpfs.data.value.cid}`;
 
             return url;
         } catch (error) {

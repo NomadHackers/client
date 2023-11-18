@@ -22,7 +22,7 @@ export const Welcome = ({ onCloseWelcome }) => {
 				width: "100vw",
 				maxWidth: "100vw",
 				overflow: "hidden",
-				backgroundColor: "#E8E0D5",
+				backgroundColor: "white",
 				backgroundImage: `url(${Crumbled})`,
 				backgroundPosition: "center",
 				backgroundSize: "cover",
@@ -31,7 +31,12 @@ export const Welcome = ({ onCloseWelcome }) => {
 			<img src={Sculp1} alt="1-sculp" className="emoji-design unicorn" />
 			<img src={Sculp2} alt="2-sculp" className="emoji-design dog" />
 			<img src={Sculp3} alt="3-sculp" className="emoji-design heart" />
-			<img src={Sculp4} alt="4-sculp" className="emoji-design rocket" />
+			<img
+				src={Sculp4}
+				height={"200px"}
+				alt="4-sculp"
+				className="emoji-design rocket"
+			/>
 			<img src={Sculp5} alt="5-sculp" className="emoji-design cat" />
 			<Box
 				p={3}
