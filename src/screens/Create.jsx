@@ -7,6 +7,10 @@ import { RiImageEditLine } from "react-icons/ri";
 import styled from "@emotion/styled";
 import MDEditor from "@uiw/react-md-editor";
 import { NftStorageHttpService } from "../utils/nftStorage";
+import { getWalletAddress, switchChain } from "../utils/wallet";
+import Web3 from "web3";
+import { CHAIN } from "../constant";
+import Wiki from "../contracts/Wikipedia.json";
 
 export const Create = () => {
 	const [title, setTitle] = useState("");
@@ -17,18 +21,57 @@ export const Create = () => {
 	const nftStorageHttpService = new NftStorageHttpService();
 
 	async function uploadToIpfs() {
-		if (!title) return alert("Please ensure everything is filled.");
-		setLoading(true);
+		try {
+			if (!title) return alert("Please ensure everything is filled.");
+			setLoading(true);
 
-		// 1. Upload file to ipfs
-		const assetUrl = await nftStorageHttpService.pinFileToIPFS(thumbnailFile);
+			// 1. Upload file to ipfs
+			const assetUrl = await nftStorageHttpService.pinFileToIPFS(thumbnailFile);
 
-		// 2. Upload data to ipfs
-		const metaDataUrl = await nftStorageHttpService.pinJSONToIPFS({
-			markdown: value,
-			title,
-			image: assetUrl,
-		});
+			// 2. Upload data to ipfs
+			const metaDataUrl = await nftStorageHttpService.pinJSONToIPFS({
+				markdown: value,
+				title,
+				image: assetUrl,
+			});
+
+			await createArticle(metaDataUrl, assetUrl);
+		} catch (error) {
+			toast(error.message);
+		}
+	}
+
+	async function createArticle(contentHash, imageHash) {
+		try {
+			setLoading(true);
+			await switchChain();
+			const web3 = new Web3(window.ethereum);
+
+			const contract = new web3.eth.Contract(Wiki.abi, CHAIN.contract_address);
+			const currentAddress = await getWalletAddress();
+
+			// Gas Calculation
+			const gasPrice = await web3.eth.getGasPrice();
+			const gas = await contract.methods
+				.addNewArticle(1, currentAddress, 0, contentHash, imageHash, title)
+				.estimateGas({
+					from: currentAddress,
+				});
+
+			const resp = await contract.methods
+				.addNewArticle(1, currentAddress, 0, contentHash, imageHash, title)
+				.send({ from: currentAddress, gasPrice, gas })
+				.on("receipt", async function (receipt) {
+					console.log(receipt);
+					setLoading(false);
+					alert("You have published an article successfully🥳🍾");
+					// window.location.reload();
+				});
+			console.log(resp);
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
 	}
 
 	useEffect(() => {

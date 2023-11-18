@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { ChainsConfig } from "../constant";
+import { CHAIN } from "../constant";
 
 export async function connectWalletToSite() {
 	try {
@@ -25,8 +25,7 @@ export async function connectWalletToSite() {
 }
 
 export async function switchChain() {
-	const config = { ...ChainsConfig["SHARDEUM_BETA"] };
-	config.chainId = Web3.utils.toHex(ChainsConfig["SHARDEUM_BETA"].chainId);
+	const config = CHAIN;
 
 	try {
 		await window.ethereum.request({
