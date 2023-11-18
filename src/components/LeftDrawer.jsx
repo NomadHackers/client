@@ -21,7 +21,7 @@ const mainList = [
 		text: "Home",
 		i: () => <AiOutlineHome />,
 		ai: () => <AiFillHome />,
-		path: "/home",
+		path: "/",
 	},
 	{
 		text: "Notifications",
@@ -146,7 +146,7 @@ export function LeftDrawer({ smaller }) {
 									borderRadius: "8px",
 									p: 1,
 									py: 1.5,
-									mb: 1,
+									mb: 0.4,
 									cursor: "pointer",
 									"&:hover": {
 										background: index === ind ? "" : "rgb(38 38 38 / 35%)",
