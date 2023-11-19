@@ -6,9 +6,17 @@ import { LeftDrawer } from "../components/LeftDrawer";
 import { HiOutlineLogout } from "react-icons/hi";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import { BsPerson } from "react-icons/bs";
-import { connectWalletToSite, getWalletAddress } from "../utils/wallet";
+import {
+	connectWalletToSite,
+	getWalletAddress,
+	switchChain,
+} from "../utils/wallet";
 import { useNavigate } from "react-router-dom";
 import { Welcome } from "./Welcome";
+import Web3 from "web3";
+import Wiki from "../contracts/Wikipedia.json";
+import { CHAIN } from "../constant";
+import axios from "axios";
 
 export const Home = () => {
 	const [connectedToSite, setConnectedToSite] = useState(false);
@@ -41,8 +49,24 @@ export const Home = () => {
 	};
 
 	const data = [0, 1, 2];
+	async function getArticles() {
+		await switchChain();
+		const web3 = new Web3(window.ethereum);
+		const contract = new web3.eth.Contract(Wiki.abi, CHAIN.contract_address);
+
+		const counter = await contract.methods.counter().call();
+		let articles = [];
+		for (var i = 1; i <= counter; i++) {
+			let article = await contract.methods.articlesById(i).call();
+			const response = await axios.get(article.ipfsHash);
+			article.markdown = response.data.markdown;
+			articles.push(article);
+		}
+		console.log(articles);
+	}
 
 	useEffect(() => {
+		getArticles();
 		const isWelcome = localStorage.getItem("welcome");
 		if (isWelcome !== "true") {
 			setIsWelcomeScreen(true);

@@ -58,7 +58,7 @@ export const Welcome = ({ onCloseWelcome }) => {
 							<IoChevronForwardOutline />
 						</Box>
 						<p className="continue-button-subtitle">
-							*Built for ZuSocial Istanbul 2023, things might brake😄
+							*Built for EthGlobal Istanbul 2023, things might brake😄
 						</p>
 					</Box>
 				</Box>

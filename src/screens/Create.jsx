@@ -1,5 +1,5 @@
 import "../styles/Home.css";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, CircularProgress, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { LeftDrawer } from "../components/LeftDrawer";
 import { toast } from "react-toastify";
@@ -131,17 +131,6 @@ export const Create = () => {
 											sx={{ m: 1 }}
 											component="label"
 											onChange={(e) => {
-												if (e.target.files[0]?.type?.split("/")[0] !== "image")
-													return toast(
-														"Please select a file with type image!",
-														{
-															type: "info",
-														}
-													);
-												if (e.target.files[0]?.type?.split("/")[1] !== "png")
-													return toast("Please only upload png images!", {
-														type: "info",
-													});
 												setThumbnailFile(e.target.files[0]);
 											}}
 										>
@@ -154,14 +143,7 @@ export const Create = () => {
 										component="label"
 										onChange={(e) => {
 											console.log(e.target.files[0]?.type);
-											if (e.target.files[0]?.type?.split("/")[0] !== "image")
-												return toast("Please select a file with type image!", {
-													type: "info",
-												});
-											if (e.target.files[0]?.type?.split("/")[1] !== "png")
-												return toast("Please only upload png images!", {
-													type: "info",
-												});
+
 											setThumbnailFile(e.target.files[0]);
 										}}
 										sx={{ paddingLeft: "0px", width: "100%" }}
@@ -191,8 +173,21 @@ export const Create = () => {
 							<div data-color-mode="light">
 								<MDEditor value={value} onChange={setValue} />
 							</div>
-							<Box>
-								<Button onClick={() => uploadToIpfs()}>Upload</Button>
+							<Box
+								width={"100%"}
+								sx={{
+									backgroundColor: "lightblue",
+									mt: 2,
+									textAlign: "center",
+								}}
+							>
+								<Button onClick={() => uploadToIpfs()}>
+									{loading ? (
+										<CircularProgress size={"30px"} />
+									) : (
+										<p style={{ color: "blue" }}>Upload</p>
+									)}
+								</Button>
 							</Box>
 						</Box>
 					</Box>

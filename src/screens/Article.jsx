@@ -70,7 +70,7 @@ export const Article = () => {
 							width: "100%",
 							height: "240px",
 							borderRadius: "8px",
-							backgroundImage: `url(${article.imageHash})`,
+							backgroundImage: `url("https://ipfs.io/ipfs/bafybeiaaw645o5nkm5shzv7jychijcmmrf7rwr3jyfkdlqplhntjsh2hwi/1_lzoB_kwPqCIsu8JsX9sr0g (1).jpg")`,
 							backgroundRepeat: "no-repeat",
 							backgroundPosition: "center",
 							backgroundSize: "contain",
@@ -92,7 +92,7 @@ export const Article = () => {
 						/>
 					</div>
 				</Box>
-				<Box flex={1} p={1}>
+				{/* <Box flex={1} p={1}>
 					<Box
 						sx={{
 							p: "1",
@@ -102,7 +102,7 @@ export const Article = () => {
 					>
 						Latest articles
 					</Box>
-				</Box>
+				</Box> */}
 			</Box>
 		</Box>
 	);
